@@ -1,5 +1,5 @@
 public class Medicamento{
-    private String nome;
+    protected String nome;
     private int qnt;
     private float preco;
     private boolean tarj;
@@ -12,10 +12,9 @@ public class Medicamento{
         this.preco = preco;
         this.tarj = tarja;
         this.anti = antb;
-        this.receit = receit;
     }
 
-    String getNome(){
+    public String getNome(){
         return this.nome;
     }
     void setNome(String nome){

@@ -1,18 +1,19 @@
 import java.util.ArrayList;
-
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Farmacia F1 = new Farmacia("Drogaria War",1);
 
-        Medicamento M1 = new Medicamento("Venvanse",446.29F,10,true,false);
-        Medicamento M2 = new Medicamento("Ritalina",77.39F,10,true,false);
+        Farmacia F1 = new Farmacia("Drogaria War", 1);
 
-        Medicamento M3 = new Medicamento("Dipirona",3.99F,10,false,false);
-        Medicamento M4 = new Medicamento("Paracetamol",10.98F,10,false,false);
+        Medicamento M1 = new Medicamento("Venvanse", 446.29F, 10, true, false);
+        Medicamento M2 = new Medicamento("Ritalina", 77.39F, 10, true, false);
 
-        Medicamento M5 = new Medicamento("Amoxicilina",129.91F,10,false,true);
-        Medicamento M6 = new Medicamento("Azitromicina",30.07F,10,false,true);
+        Medicamento M3 = new Medicamento("Dipirona", 3.99F, 10, false, false);
+        Medicamento M4 = new Medicamento("Paracetamol", 10.98F, 10, false, false);
+
+        Medicamento M5 = new Medicamento("Amoxicilina", 129.91F, 10, false, true);
+        Medicamento M6 = new Medicamento("Azitromicina", 30.07F, 10, false, true);
 
         ArrayList<Medicamento> estoqueUni = new ArrayList<>();
         estoqueUni.add(M1);
@@ -22,11 +23,39 @@ public class Main {
         estoqueUni.add(M5);
         estoqueUni.add(M6);
 
-        System.out.println("Bem vindos a " + F1.getNome() + "!");
-        System.out.println("Esses São os nossos medicamentos atuais em nosso estoque:");
+        public static void menu(){
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("1. Fazer um pedido");
+            System.out.println("2. Verificar status de pedidos");
+            System.out.println("3. Sair");
+            System.out.print("Opção: ");
+            int opcao = scanner.nextInt();
+            scanner.nextLine();
+            if (opcao==1) {
+                System.out.print("Por favor, insira o nome do medicamento que deseja comprar: ");
+                String CompraUs = scanner.nextLine();
+                for (Medicamento medicamento : estoqueUni) {
+                    if (CompraUs.equalsIgnoreCase(medicamento.getNome())) {
+                        System.out.println("Medicamento encontrado: " + medicamento);
+                        break;
+                    }
+                }
+            }
+            else{
+                System.out.print("Escolha alguma opção que esteja listada, Por favor");
+            }
+        }
+
+        System.out.println("Bem vindos a " + F1.getNomeF() + "!");
+        System.out.println("Esse é o nosso sistema de atendimento online! ");
+        System.out.println("Esses os medicamentos atuais em estoque:");
+
         for (Medicamento Medicamento : estoqueUni) {
             System.out.println("  Nome: " + Medicamento.getNome() + " | Quantidade: " + Medicamento.getQnt());
         }
-        }
-
+        System.out.println("\n");
+        System.out.println("Oque o cliente deseja ");
+        menu();
     }
+
+}

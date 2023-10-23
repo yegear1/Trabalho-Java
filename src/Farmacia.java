@@ -1,21 +1,27 @@
 public class Farmacia {
-    private String nome;
+
+    private String nomeF;
     private int cnpj;
-    private Medicamento[] estoque;
 
-
-    public Farmacia(String nome,int cnpj){
-        this.nome = nome;
+    public Farmacia(String nomeF,int cnpj){
+        this.nomeF = nomeF;
         this.cnpj = cnpj;
-        this.estoque = new Medicamento[100];
-
     }
 
-    public String getNome(){
-        return this.nome;
+
+
+
+    public void statusFar(){
+        System.out.println("Esses são");
+    }
+
+    public String getNomeF(){
+        return this.nomeF;
     }
 
     int getCnpj(){
         return this.cnpj;
     }
+
+
 }
