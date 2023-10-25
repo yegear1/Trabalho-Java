@@ -1,31 +1,34 @@
 public class Medicamento{
-    protected String nome;
+    private String nome;
     private int qnt;
     private float preco;
-    private boolean tarj;
-    private boolean anti;
-    private boolean receit;
+    private String desc;
+    private boolean gen;
 
-    public Medicamento(String nome,float preco,int qnt,boolean tarja,boolean antb){
+    public Medicamento(String nome,int qnt,float preco,String desc,boolean gen){
         this.nome = nome;
         this.qnt = qnt;
         this.preco = preco;
-        this.tarj = tarja;
-        this.anti = antb;
+        this.desc = desc;
+        this.gen = gen;
     }
 
-    public String getNome(){
-        return this.nome;
+    public void atualizarQnt(int qnt1){
+        qnt -= qnt1;
+    }
+
+    public  String getNome(){
+        return nome;
     }
     void setNome(String nome){
         this.nome = nome;
     }
 
-    int getQnt(){
-        return this.qnt;
+    public int getQnt(){
+        return qnt;
     }
-    void setQnt(int quantid){
-        this.qnt = quantid;
+    void setQnt(int qnt){
+        this.qnt = qnt;
     }
 
     float getPreco(){
@@ -35,13 +38,14 @@ public class Medicamento{
         this.preco = preco;
     }
 
-    boolean isTarja(){
-        return this.tarj;
+    public  String getDesc(){
+        return desc;
     }
-    boolean isAntb(){
-        return this.anti;
+    void setDescString (desc){
+        this.desc = desc;
     }
-    boolean isReceit(){
-        return this.receit;
+
+    boolean isGen(){
+        return this.gen;
     }
 };
