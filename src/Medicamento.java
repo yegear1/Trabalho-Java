@@ -17,6 +17,7 @@ public class Medicamento{
         qnt -= qnt1;
     }
 
+
     public  String getNome(){
         return nome;
     }
@@ -41,7 +42,7 @@ public class Medicamento{
     public  String getDesc(){
         return desc;
     }
-    void setDescString (desc){
+    void setDesc (String desc){
         this.desc = desc;
     }
 
