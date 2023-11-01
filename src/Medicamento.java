@@ -13,11 +13,10 @@ public class Medicamento{
         this.gen = gen;
     }
 
+
     public void atualizarQnt(int qnt1){
         qnt -= qnt1;
     }
-
-
     public  String getNome(){
         return nome;
     }
