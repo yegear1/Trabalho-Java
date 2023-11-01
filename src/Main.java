@@ -74,28 +74,19 @@ public class Main {
                             if(CompraQnt > 0 && CompraQnt <= medicamentoSelecionado.getQnt()){
                                 medicamentoSelecionado.atualizarQnt(CompraQnt);
                                 carrinho.add("Pedido de " + CompraQnt + " unidades de " + medicamentoSelecionado.getNome() + " por " + CompraQnt* medicamentoSelecionado.getPreco() + "R$");
-                                System.out.printf("O valor deu: %.2f R$", medicamentoSelecionado.getPreco() * CompraQnt);                                Farmacia.wait(3000);
-                                Farmacia.limpatela();
+                                Medicamento.compra(medicamentoSelecionado.getPreco(), CompraQnt);
                             } else if (CompraQnt < 0) {
-                                System.out.println("De que forma você pretende comprar "+medicamentoSelecionado.getNome() + "negativos");
-                                Farmacia.wait(3000);
-                                Farmacia.limpatela();
+                                Medicamento.compraMenor0(medicamentoSelecionado.getNome());
                             } else{
-                                System.out.print("Não possuimos mais " + medicamentoSelecionado.getNome() + " em estoque");
-                                Farmacia.wait(3000);
-                                Farmacia.limpatela();
+                                Medicamento.semEstoque(medicamentoSelecionado.getNome());
                             }
                         } else if (CompraRe.equalsIgnoreCase("não")) {
                             System.out.println("Você não pode comprar esse medicamento sem receita");
                             Farmacia.wait(3000);
                             Farmacia.limpatela();
                         } else {
-                            System.out.println("Entrada invalida, Por favor, digite 'sim' ou 'não'");
-                            Farmacia.wait(3000);
-                            Farmacia.limpatela();
+                            Medicamento.entradaInv();
                         }
-
-
 
 
                     } else if (medicamentoSelecionado instanceof TarjaVermelha) { // Verifica se o medicamentoSelecionado é da classe Tarja Vermelha
@@ -109,29 +100,19 @@ public class Main {
                             if(CompraQnt > 0 && CompraQnt <= medicamentoSelecionado.getQnt()) {
                                 medicamentoSelecionado.atualizarQnt(CompraQnt);
                                 carrinho.add("Pedido de " + CompraQnt + " unidades de " + medicamentoSelecionado.getNome() + " por " + CompraQnt* medicamentoSelecionado.getPreco() + "R$");
-                                System.out.printf("O valor deu: %.2f R$", medicamentoSelecionado.getPreco() * CompraQnt);                                Farmacia.wait(3000);
-                                Farmacia.limpatela();
+                                Medicamento.compra(medicamentoSelecionado.getPreco(), CompraQnt);
                             } else if (CompraQnt < 0) {
-                                System.out.println("De que forma você pretende comprar "+medicamentoSelecionado.getNome() + " negativos");
-                                Farmacia.wait(3000);
-                                Farmacia.limpatela();
+                                Medicamento.compraMenor0(medicamentoSelecionado.getNome());
                             } else{
-                                System.out.print("Não possuimos mais " + medicamentoSelecionado.getNome() + " em estoque");
-                                Farmacia.wait(3000);
-                                Farmacia.limpatela();
+                                Medicamento.semEstoque(medicamentoSelecionado.getNome());
                             }
                         } else if (CompraRe.equalsIgnoreCase("não")) {
                             System.out.println("Você não pode comprar esse medicamento sem receita");
                             Farmacia.wait(3000);
                             Farmacia.limpatela();
                         } else {
-                            System.out.println("Entrada invalida, Por favor, digite 'sim' ou 'não'");
-                            Farmacia.wait(3000);
-                            Farmacia.limpatela();
-
+                            Medicamento.entradaInv();
                         }
-
-
 
 
                     } else { // No caso de não ser nenhum das classes nos if, ele cai aqui
@@ -140,16 +121,11 @@ public class Main {
                         if(CompraQnt > 0 && CompraQnt <= medicamentoSelecionado.getQnt()) {
                             medicamentoSelecionado.atualizarQnt(CompraQnt);
                             carrinho.add("Pedido de " + CompraQnt + " unidades de " + medicamentoSelecionado.getNome() + " por " + CompraQnt* medicamentoSelecionado.getPreco() + "R$");
-                            System.out.printf("O valor deu: %.2f R$", medicamentoSelecionado.getPreco() * CompraQnt);                            Farmacia.wait(3000);
-                            Farmacia.limpatela();
+                            Medicamento.compra(medicamentoSelecionado.getPreco(), CompraQnt);
                         } else if (CompraQnt < 0) {
-                            System.out.println("De que forma você pretende comprar "+medicamentoSelecionado.getNome() + " negativos");
-                            Farmacia.wait(3000);
-                            Farmacia.limpatela();
+                            Medicamento.compraMenor0(medicamentoSelecionado.getNome());
                         } else {
-                            System.out.print("Não possuimos mais " + medicamentoSelecionado.getNome() + " em estoque");
-                            Farmacia.wait(3000);
-                            Farmacia.limpatela();
+                            Medicamento.semEstoque(medicamentoSelecionado.getNome());
                         }
                     }
                 } else {
@@ -157,8 +133,6 @@ public class Main {
                     Farmacia.wait(3000);
                     Farmacia.limpatela();
                 }
-
-
 
 
             } else if (opcao.equals("2")){
@@ -188,9 +162,7 @@ public class Main {
                 System.out.println("Volte sempre!");
                 break;
             } else {
-                System.out.println("Opção invalida, escolha uma dentre as mostradas");
-                Farmacia.wait(3000);
-                Farmacia.limpatela();
+                Medicamento.entradaInv();
             }
         }
     }

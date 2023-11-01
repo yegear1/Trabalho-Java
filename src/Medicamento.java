@@ -13,6 +13,29 @@ public class Medicamento{
         this.gen = gen;
     }
 
+    public static void compra(float preco, int Qnt){
+        System.out.printf("O valor deu: %.2f R$", preco * Qnt);
+        Farmacia.wait(3000);
+        Farmacia.limpatela();
+    }
+
+    public static void compraMenor0(String nome){
+        System.out.println("De que forma você pretende comprar o medicamento " + nome + " negativo");
+        Farmacia.wait(3000);
+        Farmacia.limpatela();
+    }
+
+    public static void semEstoque(String nome){
+        System.out.print("Não possuimos mais " + nome + " em estoque");
+        Farmacia.wait(3000);
+        Farmacia.limpatela();
+    }
+
+    public static void entradaInv(){
+        System.out.println("Entrada invalida, Por favor, escolha uma opção válida");
+        Farmacia.wait(3000);
+        Farmacia.limpatela();
+    }
 
     public void atualizarQnt(int qnt1){
         qnt -= qnt1;
