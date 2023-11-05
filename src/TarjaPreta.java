@@ -3,7 +3,7 @@ public class TarjaPreta extends Medicamento {
 
     public TarjaPreta(String nome, int qnt,float preco, String desc, boolean gen) {
         super(nome, qnt, preco, desc, gen);
-        this.receita = receita;
+        boolean receita;
     }
 
     public boolean isReceita() {
