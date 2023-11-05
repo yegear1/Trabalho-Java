@@ -37,13 +37,13 @@ public class Main {
 
         ArrayList<String> carrinho  = new ArrayList<>(); //lista da compra
 
-        System.out.println("Bem vindos a " + F1.getNomeF() + "!");
+        System.out.printf("Bem vindos a %s !\n", F1.getNomeF());
         System.out.println("Esse é o nosso sistema de atendimento online! ");
 
         while(true) { // estrutura pra repetir o codigo
-            System.out.println("Esses os medicamentos atuais em estoque:");
+            System.out.println("Medicamentos disponíveis em estoque:");
             for (Medicamento medicamento : estoqueUni) {
-                System.out.println("  Nome: " + medicamento.getNome() + " | Quantidade: " + medicamento.getQnt());
+                System.out.printf("Nome: %s | Quantidade: %d\n", medicamento.getNome(), medicamento.getQnt());
             }
             Farmacia.menu();
             Scanner scanner = new Scanner(System.in);
@@ -63,9 +63,10 @@ public class Main {
                     }
                 }
                 if (encontrado) {
-                    System.out.println("Medicamento encontrado: " + medicamentoSelecionado.getNome() + ", Temos " + medicamentoSelecionado.getQnt() + " unidades");
+                    System.out.println("#-#-#-#-#- STATUS -#-#-#-#-#");
+                    System.out.printf("Medicamento encontrado: %s, quantidade em estoque: %d unidades\n", medicamentoSelecionado.getNome(), medicamentoSelecionado.getQnt());
                     if (medicamentoSelecionado instanceof TarjaPreta) { // Verifica se o medicamentoSelecionado é da classe Tarja Preta
-                        System.out.println("Este medicamento é um tarja preta, necessita de receita médica");
+                        System.out.println("Este medicamento é classificado como tarja preta, necessita de receita médica");
                         System.out.println("Você possui receita ? ");
                         String CompraRe = scanner.nextLine();
                         if (CompraRe.equalsIgnoreCase("sim")) {
@@ -86,9 +87,8 @@ public class Main {
                             Medicamento.entradaInv();
                         }
 
-
                     } else if (medicamentoSelecionado instanceof TarjaVermelha) { // Verifica se o medicamentoSelecionado é da classe Tarja Vermelha
-                        System.out.println("Este medicamento é um antibiotico, portanto você precisará de duas vias de receitas");
+                        System.out.println("Este medicamento é classificado como antibiotico, portanto você precisará de duas vias de receitas");
                         System.out.println("Você possui as receitas ?");
                         String CompraRe = scanner.nextLine();
 
@@ -109,7 +109,6 @@ public class Main {
                         } else {
                             Medicamento.entradaInv();
                         }
-
 
                     } else { // No caso de não ser nenhum das classes nos if, ele cai aqui
                         System.out.print("Quantos deseja comprar: ");
@@ -132,6 +131,7 @@ public class Main {
 
 
             } else if (opcao.equals("2")) {
+                System.out.println("#-#-#-#-#- CARRINHO DE COMPRAS -#-#-#-#-#");
                 if (carrinho.isEmpty()) {
                     System.out.println("Seu carrinho está vazio");
                     Farmacia.wait(3000);
@@ -154,7 +154,8 @@ public class Main {
                     }
                 }
             } else if(opcao.equals("3")){
-                    System.out.println("Qual medicamento deseja atualizar o estoque?");
+                    System.out.println("#-#-#-#-#- ATUALIZAÇÃO DE ESTOQUE -#-#-#-#-#");
+                    System.out.println("Informe o nome do medicamento: ");
                     String medi = scanner.nextLine();
                     Medicamento medicamentoSelecionado = null;
 
@@ -166,10 +167,10 @@ public class Main {
                     }
                 }
                 if(encontrado){
-                    System.out.println("Digite a quantidade que deseja adicionar: ");
+                    System.out.println("Informe a quantidade a ser adicionada: ");
                     int add = scanner.nextInt();
                     medicamentoSelecionado.adicionaresto(add);
-                    System.out.println(medicamentoSelecionado.getNome() + " teve " + add + " adicionado ao estoque");
+                    System.out.printf("Medicamento %s teve %d unidade(s) adicionadas ao estoque", medicamentoSelecionado.getNome(), add);
                     Farmacia.wait(3000);
                     Farmacia.limpatela();
                 } else {
