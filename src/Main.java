@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,15 +9,16 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-
+        Banco banco = new Banco();
+        banco.criartabela();
         Farmacia F1 = new Farmacia("Drogaria Gobila", 1);
 
-        Funcionario Fun1 = new Funcionario("Luis Felipe",1,"Caixista", 2700);
-        Funcionario Fun2 = new Funcionario("Igor Batoré",2,"Zelador", 1100);
-        Funcionario Fun3 = new Funcionario("Wallas",3,"Gerente", 3454);
+        Funcionario Fun1 = new Funcionario("Luis Felipe", 1, "Caixista", 2700);
+        Funcionario Fun2 = new Funcionario("Igor Batoré", 2, "Zelador", 1100);
+        Funcionario Fun3 = new Funcionario("Wallas", 3, "Gerente", 3454);
 
-        Farmaceutico Fun4 = new Farmaceutico("Antonioabate",4,"Farmaceutico manipulador", 3250);
-        Farmaceutico Fun5 = new Farmaceutico("Adalberto",5,"Farmaceutico", 3130);
+        Farmaceutico Fun4 = new Farmaceutico("Antonioabate", 4, "Farmaceutico manipulador", 3250);
+        Farmaceutico Fun5 = new Farmaceutico("Adalberto", 5, "Farmaceutico", 3130);
 
         TarjaPreta M1 = new TarjaPreta("Venvanse", 10, 446.29F, "true", false);
         TarjaPreta M2 = new TarjaPreta("Ritalina", 10, 77.39F, "true", false);
@@ -35,12 +37,12 @@ public class Main {
         estoqueUni.add(M5);
         estoqueUni.add(M6);
 
-        ArrayList<String> carrinho  = new ArrayList<>(); //lista da compra
+        ArrayList<String> carrinho = new ArrayList<>(); //lista da compra
 
         System.out.printf("Bem vindos a %s !\n", F1.getNomeF());
         System.out.println("Esse é o nosso sistema de atendimento online! ");
 
-        while(true) { // estrutura pra repetir o codigo
+        while (true) { // estrutura pra repetir o codigo
             System.out.println("Medicamentos disponíveis em estoque:");
             for (Medicamento medicamento : estoqueUni) {
                 System.out.printf("Nome: %s | Quantidade: %d\n", medicamento.getNome(), medicamento.getQnt());
@@ -72,13 +74,13 @@ public class Main {
                         if (CompraRe.equalsIgnoreCase("sim")) {
                             System.out.print("Quantos deseja comprar: ");
                             int CompraQnt = scanner.nextInt();
-                            if(CompraQnt > 0 && CompraQnt <= medicamentoSelecionado.getQnt()){
+                            if (CompraQnt > 0 && CompraQnt <= medicamentoSelecionado.getQnt()) {
                                 medicamentoSelecionado.atualizarQnt(CompraQnt);
-                                carrinho.add("Pedido de " + CompraQnt + " unidades de " + medicamentoSelecionado.getNome() + " por " + CompraQnt* medicamentoSelecionado.getPreco() + "R$");
+                                carrinho.add("Pedido de " + CompraQnt + " unidades de " + medicamentoSelecionado.getNome() + " por " + CompraQnt * medicamentoSelecionado.getPreco() + "R$");
                                 Medicamento.compra(medicamentoSelecionado.getPreco(), CompraQnt);
                             } else if (CompraQnt < 0) {
                                 Medicamento.compraMenor0(medicamentoSelecionado.getNome());
-                            } else{
+                            } else {
                                 Medicamento.semEstoque(medicamentoSelecionado.getNome());
                             }
                         } else if (CompraRe.equalsIgnoreCase("não")) {
@@ -95,13 +97,13 @@ public class Main {
                         if (CompraRe.equalsIgnoreCase("sim")) {
                             System.out.print("Quantos deseja comprar: ");
                             int CompraQnt = scanner.nextInt();
-                            if(CompraQnt > 0 && CompraQnt <= medicamentoSelecionado.getQnt()) {
+                            if (CompraQnt > 0 && CompraQnt <= medicamentoSelecionado.getQnt()) {
                                 medicamentoSelecionado.atualizarQnt(CompraQnt);
-                                carrinho.add("Pedido de " + CompraQnt + " unidades de " + medicamentoSelecionado.getNome() + " por " + CompraQnt* medicamentoSelecionado.getPreco() + "R$");
+                                carrinho.add("Pedido de " + CompraQnt + " unidades de " + medicamentoSelecionado.getNome() + " por " + CompraQnt * medicamentoSelecionado.getPreco() + "R$");
                                 Medicamento.compra(medicamentoSelecionado.getPreco(), CompraQnt);
                             } else if (CompraQnt < 0) {
                                 Medicamento.compraMenor0(medicamentoSelecionado.getNome());
-                            } else{
+                            } else {
                                 Medicamento.semEstoque(medicamentoSelecionado.getNome());
                             }
                         } else if (CompraRe.equalsIgnoreCase("não")) {
@@ -113,9 +115,9 @@ public class Main {
                     } else { // No caso de não ser nenhum das classes nos if, ele cai aqui
                         System.out.print("Quantos deseja comprar: ");
                         int CompraQnt = scanner.nextInt();
-                        if(CompraQnt > 0 && CompraQnt <= medicamentoSelecionado.getQnt()) {
+                        if (CompraQnt > 0 && CompraQnt <= medicamentoSelecionado.getQnt()) {
                             medicamentoSelecionado.atualizarQnt(CompraQnt);
-                            carrinho.add("Pedido de " + CompraQnt + " unidades de " + medicamentoSelecionado.getNome() + " por " + CompraQnt* medicamentoSelecionado.getPreco() + "R$");
+                            carrinho.add("Pedido de " + CompraQnt + " unidades de " + medicamentoSelecionado.getNome() + " por " + CompraQnt * medicamentoSelecionado.getPreco() + "R$");
                             Medicamento.compra(medicamentoSelecionado.getPreco(), CompraQnt);
                         } else if (CompraQnt < 0) {
                             Medicamento.compraMenor0(medicamentoSelecionado.getNome());
@@ -153,11 +155,11 @@ public class Main {
                         Medicamento.entradaInv();
                     }
                 }
-            } else if(opcao.equals("3")){
-                    System.out.println("#-#-#-#-#- ATUALIZAÇÃO DE ESTOQUE -#-#-#-#-#");
-                    System.out.println("Informe o nome do medicamento: ");
-                    String medi = scanner.nextLine();
-                    Medicamento medicamentoSelecionado = null;
+            } else if (opcao.equals("3")) {
+                System.out.println("#-#-#-#-#- ATUALIZAÇÃO DE ESTOQUE -#-#-#-#-#");
+                System.out.println("Informe o nome do medicamento: ");
+                String medi = scanner.nextLine();
+                Medicamento medicamentoSelecionado = null;
 
                 for (Medicamento medicamento : estoqueUni) { // Gera os medicamentos no terminal
                     if (medi.equalsIgnoreCase(medicamento.getNome())) {
@@ -166,7 +168,7 @@ public class Main {
                         break;
                     }
                 }
-                if(encontrado){
+                if (encontrado) {
                     System.out.println("Informe a quantidade a ser adicionada: ");
                     int add = scanner.nextInt();
                     medicamentoSelecionado.adicionaresto(add);
@@ -176,8 +178,26 @@ public class Main {
                 } else {
                     Medicamento.entradaInv();
                 }
+            } else if (opcao.equalsIgnoreCase("4")) {
+                for (Medicamento medicamento : estoqueUni) {
+                    try {
+                        banco.inserir(medicamento.getNome(), medicamento.getQnt(), medicamento.getPreco());
+                    } catch (SQLException e) {
+                        System.out.println("Erro ao inserir medicamento: " + e.getMessage());
+                    }
 
-            } else if(opcao.equals("4")){
+
+                }
+            } else if (opcao.equalsIgnoreCase("5")) {
+                System.out.println("Digite o id do medicamento que deseja deletar");
+                int num = scanner.nextInt();
+                try {
+                    Banco.deletar(num);
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+
+            } else if (opcao.equals("6")) {
                 System.out.println("Volte sempre!");
                 break;
             } else {
