@@ -11,6 +11,7 @@ public class Main {
     public static void main(String[] args) {
         Banco banco = new Banco();
         banco.criartabela();
+
         Farmacia F1 = new Farmacia("Drogaria Gobila", 1);
 
         Funcionario Fun1 = new Funcionario("Luis Felipe", 1, "Caixista", 2700);
@@ -39,169 +40,199 @@ public class Main {
 
         ArrayList<String> carrinho = new ArrayList<>(); //lista da compra
 
-        System.out.printf("Bem vindos a %s !\n", F1.getNomeF());
-        System.out.println("Esse é o nosso sistema de atendimento online! ");
+        // Login
+        System.out.println("Olá, por favor, digite suas credenciais ");
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Usuario: ");
+        String user = scanner.next();
+        System.out.println("Senha: ");
+        String pass = scanner.next();
 
-        while (true) { // estrutura pra repetir o codigo
-            System.out.println("Medicamentos disponíveis em estoque:");
-            for (Medicamento medicamento : estoqueUni) {
-                System.out.printf("Nome: %s | Quantidade: %d\n", medicamento.getNome(), medicamento.getQnt());
-            }
-            Farmacia.menu();
-            Scanner scanner = new Scanner(System.in);
-            String opcao = scanner.nextLine();
-            boolean encontrado = false;
+        if (SistemaLogin.login(user, pass)) {
+            if (SistemaLogin.isAdmin(user)) {
 
-            if (opcao.equals("1")) {
-                System.out.print("Por favor, insira o nome do medicamento que deseja comprar: ");
-                String CompraNo = scanner.nextLine();
-                Medicamento medicamentoSelecionado = null;
+                while (true) {
+                    Farmacia.menuAdmin();
+                    String opcao = scanner.nextLine();
+                    boolean encontrado = false;
 
-                for (Medicamento medicamento : estoqueUni) { // Gera os medicamentos no terminal
-                    if (CompraNo.equalsIgnoreCase(medicamento.getNome())) {
-                        medicamentoSelecionado = medicamento;
-                        encontrado = true;
-                        break;
-                    }
-                }
-                if (encontrado) {
-                    System.out.println("#-#-#-#-#- STATUS -#-#-#-#-#");
-                    System.out.printf("Medicamento encontrado: %s, quantidade em estoque: %d unidades\n", medicamentoSelecionado.getNome(), medicamentoSelecionado.getQnt());
-                    if (medicamentoSelecionado instanceof TarjaPreta) { // Verifica se o medicamentoSelecionado é da classe Tarja Preta
-                        System.out.println("Este medicamento é classificado como tarja preta, necessita de receita médica");
-                        System.out.println("Você possui receita ? ");
-                        String CompraRe = scanner.nextLine();
-                        if (CompraRe.equalsIgnoreCase("sim")) {
-                            System.out.print("Quantos deseja comprar: ");
-                            int CompraQnt = scanner.nextInt();
-                            if (CompraQnt > 0 && CompraQnt <= medicamentoSelecionado.getQnt()) {
-                                medicamentoSelecionado.atualizarQnt(CompraQnt);
-                                carrinho.add("Pedido de " + CompraQnt + " unidades de " + medicamentoSelecionado.getNome() + " por " + CompraQnt * medicamentoSelecionado.getPreco() + "R$");
-                                Medicamento.compra(medicamentoSelecionado.getPreco(), CompraQnt);
-                            } else if (CompraQnt < 0) {
-                                Medicamento.compraMenor0(medicamentoSelecionado.getNome());
-                            } else {
-                                Medicamento.semEstoque(medicamentoSelecionado.getNome());
+                    if (opcao.equals("1")) {
+                        System.out.println("#-#-#-#-#- ATUALIZAÇÃO DE ESTOQUE -#-#-#-#-#");
+                        System.out.println("Informe o nome do medicamento: ");
+                        String medi = scanner.nextLine();
+                        Medicamento medicamentoSelecionado = null;
+
+                        for (Medicamento medicamento : estoqueUni) { // Gera os medicamentos no terminal
+                            if (medi.equalsIgnoreCase(medicamento.getNome())) {
+                                medicamentoSelecionado = medicamento;
+                                encontrado = true;
+                                break;
                             }
-                        } else if (CompraRe.equalsIgnoreCase("não")) {
-                            Medicamento.receita();
+                        }
+                        if (encontrado) {
+                            System.out.println("Informe a quantidade a ser adicionada: ");
+                            int add = scanner.nextInt();
+                            medicamentoSelecionado.adicionaresto(add);
+                            System.out.printf("Medicamento %s teve %d unidade(s) adicionadas ao estoque", medicamentoSelecionado.getNome(), add);
+                            Farmacia.wait(3000);
+                            Farmacia.limpatela();
                         } else {
                             Medicamento.entradaInv();
                         }
 
-                    } else if (medicamentoSelecionado instanceof TarjaVermelha) { // Verifica se o medicamentoSelecionado é da classe Tarja Vermelha
-                        System.out.println("Este medicamento é classificado como antibiotico, portanto você precisará de duas vias de receitas");
-                        System.out.println("Você possui as receitas ?");
-                        String CompraRe = scanner.nextLine();
-
-                        if (CompraRe.equalsIgnoreCase("sim")) {
-                            System.out.print("Quantos deseja comprar: ");
-                            int CompraQnt = scanner.nextInt();
-                            if (CompraQnt > 0 && CompraQnt <= medicamentoSelecionado.getQnt()) {
-                                medicamentoSelecionado.atualizarQnt(CompraQnt);
-                                carrinho.add("Pedido de " + CompraQnt + " unidades de " + medicamentoSelecionado.getNome() + " por " + CompraQnt * medicamentoSelecionado.getPreco() + "R$");
-                                Medicamento.compra(medicamentoSelecionado.getPreco(), CompraQnt);
-                            } else if (CompraQnt < 0) {
-                                Medicamento.compraMenor0(medicamentoSelecionado.getNome());
-                            } else {
-                                Medicamento.semEstoque(medicamentoSelecionado.getNome());
+                    } else if (opcao.equalsIgnoreCase("2")) {
+                        System.out.println("#-#-#-#-#- INSERIR MEDICAMENTO -#-#-#-#-#");
+                        for (Medicamento medicamento : estoqueUni) {
+                            try {
+                                banco.inserir(medicamento.getNome(), medicamento.getQnt(), medicamento.getPreco());
+                            } catch (SQLException e) {
+                                System.out.println("Erro ao inserir medicamento: " + e.getMessage());
                             }
-                        } else if (CompraRe.equalsIgnoreCase("não")) {
-                            Medicamento.receita();
-                        } else {
-                            Medicamento.entradaInv();
+
+
+                        }
+                    } else if (opcao.equalsIgnoreCase("3")) {
+                        System.out.println("#-#-#-#-#- DELETAR MEDICAMENTO -#-#-#-#-#");
+                        System.out.println("Digite o id do medicamento: ");
+                        int num = scanner.nextInt();
+                        try {
+                            Banco.deletar(num);
+                        } catch (SQLException e) {
+                            System.out.println(e);
                         }
 
-                    } else { // No caso de não ser nenhum das classes nos if, ele cai aqui
-                        System.out.print("Quantos deseja comprar: ");
-                        int CompraQnt = scanner.nextInt();
-                        if (CompraQnt > 0 && CompraQnt <= medicamentoSelecionado.getQnt()) {
-                            medicamentoSelecionado.atualizarQnt(CompraQnt);
-                            carrinho.add("Pedido de " + CompraQnt + " unidades de " + medicamentoSelecionado.getNome() + " por " + CompraQnt * medicamentoSelecionado.getPreco() + "R$");
-                            Medicamento.compra(medicamentoSelecionado.getPreco(), CompraQnt);
-                        } else if (CompraQnt < 0) {
-                            Medicamento.compraMenor0(medicamentoSelecionado.getNome());
-                        } else {
-                            Medicamento.semEstoque(medicamentoSelecionado.getNome());
-                        }
-                    }
-                } else {
-                    System.out.println("Medicamento não encontrado no estoque, verifique se a escrita está de acordo com a tabela");
-                    Farmacia.wait(3000);
-                    Farmacia.limpatela();
-                }
-
-
-            } else if (opcao.equals("2")) {
-                System.out.println("#-#-#-#-#- CARRINHO DE COMPRAS -#-#-#-#-#");
-                if (carrinho.isEmpty()) {
-                    System.out.println("Seu carrinho está vazio");
-                    Farmacia.wait(3000);
-                    Farmacia.limpatela();
-                } else {
-                    System.out.println("Pedidos registrados:");
-                    for (String lista : carrinho) {
-                        System.out.println(lista);
-                    }
-                    System.out.println("Deseja continuar ou finalizar a compra ?");
-                    System.out.println("1 - Continuar");
-                    System.out.println("2 - Finalizar");
-                    String Fin = scanner.nextLine();
-                    if (Fin.equals("1")) {
-                    } else if (Fin.equals("2")) {
-                        System.out.println("Volte sempre!");
+                    } else if (opcao.equals("4")) {
                         break;
                     } else {
                         Medicamento.entradaInv();
                     }
                 }
-            } else if (opcao.equals("3")) {
-                System.out.println("#-#-#-#-#- ATUALIZAÇÃO DE ESTOQUE -#-#-#-#-#");
-                System.out.println("Informe o nome do medicamento: ");
-                String medi = scanner.nextLine();
-                Medicamento medicamentoSelecionado = null;
 
-                for (Medicamento medicamento : estoqueUni) { // Gera os medicamentos no terminal
-                    if (medi.equalsIgnoreCase(medicamento.getNome())) {
-                        medicamentoSelecionado = medicamento;
-                        encontrado = true;
+            } else {
+
+                System.out.printf("Bem vindos a %s !\n", F1.getNomeF());
+                System.out.println("Esse é o nosso sistema de atendimento online! ");
+
+                while (true) { // estrutura pra repetir o codigo
+                    System.out.println("Medicamentos disponíveis em estoque:");
+                    for (Medicamento medicamento : estoqueUni) {
+                        System.out.printf("Nome: %s | Quantidade: %d\n", medicamento.getNome(), medicamento.getQnt());
+                    }
+                    Farmacia.menu();
+
+                    String opcao = scanner.nextLine();
+                    boolean encontrado = false;
+
+
+                    if (opcao.equals("1")) {
+                        System.out.print("Por favor, insira o nome do medicamento que deseja comprar: ");
+                        String CompraNo = scanner.nextLine();
+                        Medicamento medicamentoSelecionado = null;
+
+                        for (Medicamento medicamento : estoqueUni) { // Gera os medicamentos no terminal
+                            if (CompraNo.equalsIgnoreCase(medicamento.getNome())) {
+                                medicamentoSelecionado = medicamento;
+                                encontrado = true;
+                                break;
+                            }
+                        }
+                        if (encontrado) {
+                            System.out.println("#-#-#-#-#- STATUS -#-#-#-#-#");
+                            System.out.printf("Medicamento encontrado: %s, quantidade em estoque: %d unidades\n", medicamentoSelecionado.getNome(), medicamentoSelecionado.getQnt());
+
+                            if (medicamentoSelecionado instanceof TarjaPreta) { // Verifica se o medicamentoSelecionado é da classe Tarja Preta
+                                System.out.println("Este medicamento é classificado como tarja preta, necessita de receita médica");
+                                System.out.println("Você possui receita ? ");
+                                String CompraRe = scanner.nextLine();
+
+                                if (CompraRe.equalsIgnoreCase("sim")) {
+                                    System.out.print("Quantos deseja comprar: ");
+                                    int CompraQnt = scanner.nextInt();
+                                    if (CompraQnt > 0 && CompraQnt <= medicamentoSelecionado.getQnt()) {
+                                        medicamentoSelecionado.atualizarQnt(CompraQnt);
+                                        carrinho.add("Pedido de " + CompraQnt + " unidades de " + medicamentoSelecionado.getNome() + " por " + CompraQnt * medicamentoSelecionado.getPreco() + "R$");
+                                        Medicamento.compra(medicamentoSelecionado.getPreco(), CompraQnt);
+                                    } else if (CompraQnt < 0) {
+                                        Medicamento.compraMenor0(medicamentoSelecionado.getNome());
+                                    } else {
+                                        Medicamento.semEstoque(medicamentoSelecionado.getNome());
+                                    }
+                                } else if (CompraRe.equalsIgnoreCase("não")) {
+                                    Medicamento.receita();
+                                } else {
+                                    Medicamento.entradaInv();
+                                }
+
+                            } else if (medicamentoSelecionado instanceof TarjaVermelha) { // Verifica se o medicamentoSelecionado é da classe Tarja Vermelha
+                                System.out.println("Este medicamento é classificado como antibiotico, portanto você precisará de duas vias de receitas");
+                                System.out.println("Você possui as receitas ?");
+                                String CompraRe = scanner.nextLine();
+
+                                if (CompraRe.equalsIgnoreCase("sim")) {
+                                    System.out.print("Quantos deseja comprar: ");
+                                    int CompraQnt = scanner.nextInt();
+                                    if (CompraQnt > 0 && CompraQnt <= medicamentoSelecionado.getQnt()) {
+                                        medicamentoSelecionado.atualizarQnt(CompraQnt);
+                                        carrinho.add("Pedido de " + CompraQnt + " unidades de " + medicamentoSelecionado.getNome() + " por " + CompraQnt * medicamentoSelecionado.getPreco() + "R$");
+                                        Medicamento.compra(medicamentoSelecionado.getPreco(), CompraQnt);
+                                    } else if (CompraQnt < 0) {
+                                        Medicamento.compraMenor0(medicamentoSelecionado.getNome());
+                                    } else {
+                                        Medicamento.semEstoque(medicamentoSelecionado.getNome());
+                                    }
+                                } else if (CompraRe.equalsIgnoreCase("não")) {
+                                    Medicamento.receita();
+                                } else {
+                                    Medicamento.entradaInv();
+                                }
+
+                            } else { // No caso de não ser nenhum das classes nos if, ele cai aqui
+                                System.out.print("Quantos deseja comprar: ");
+                                int CompraQnt = scanner.nextInt();
+                                if (CompraQnt > 0 && CompraQnt <= medicamentoSelecionado.getQnt()) {
+                                    medicamentoSelecionado.atualizarQnt(CompraQnt);
+                                    carrinho.add("Pedido de " + CompraQnt + " unidades de " + medicamentoSelecionado.getNome() + " por " + CompraQnt * medicamentoSelecionado.getPreco() + "R$");
+                                    Medicamento.compra(medicamentoSelecionado.getPreco(), CompraQnt);
+                                } else if (CompraQnt < 0) {
+                                    Medicamento.compraMenor0(medicamentoSelecionado.getNome());
+                                } else {
+                                    Medicamento.semEstoque(medicamentoSelecionado.getNome());
+                                }
+                            }
+                        } else {
+                            System.out.println("Medicamento não encontrado no estoque, verifique se a escrita está de acordo com a tabela");
+                            Farmacia.wait(3000);
+                            Farmacia.limpatela();
+                        }
+
+
+                    } else if (opcao.equals("2")) {
+                        System.out.println("#-#-#-#-#- CARRINHO DE COMPRAS -#-#-#-#-#");
+                        if (carrinho.isEmpty()) {
+                            System.out.println("Seu carrinho está vazio");
+                            Farmacia.wait(3000);
+                            Farmacia.limpatela();
+                        } else {
+                            System.out.println("Pedidos registrados:");
+                            for (String lista : carrinho) {
+                                System.out.println(lista);
+                            }
+                            System.out.println("Deseja continuar ou finalizar a compra ?");
+                            System.out.println("1 - Continuar");
+                            System.out.println("2 - Finalizar");
+                            String Fin = scanner.nextLine();
+                            if (Fin.equals("1")) {
+                            } else if (Fin.equals("2")) {
+                                System.out.println("Volte sempre!");
+                                break;
+                            } else {
+                                Medicamento.entradaInv();
+                            }
+                        }
+                    } else if (opcao.equals("3")) {
                         break;
                     }
                 }
-                if (encontrado) {
-                    System.out.println("Informe a quantidade a ser adicionada: ");
-                    int add = scanner.nextInt();
-                    medicamentoSelecionado.adicionaresto(add);
-                    System.out.printf("Medicamento %s teve %d unidade(s) adicionadas ao estoque", medicamentoSelecionado.getNome(), add);
-                    Farmacia.wait(3000);
-                    Farmacia.limpatela();
-                } else {
-                    Medicamento.entradaInv();
-                }
-            } else if (opcao.equalsIgnoreCase("4")) {
-                for (Medicamento medicamento : estoqueUni) {
-                    try {
-                        banco.inserir(medicamento.getNome(), medicamento.getQnt(), medicamento.getPreco());
-                    } catch (SQLException e) {
-                        System.out.println("Erro ao inserir medicamento: " + e.getMessage());
-                    }
-
-
-                }
-            } else if (opcao.equalsIgnoreCase("5")) {
-                System.out.println("Digite o id do medicamento que deseja deletar");
-                int num = scanner.nextInt();
-                try {
-                    Banco.deletar(num);
-                } catch (SQLException e) {
-                    System.out.println(e);
-                }
-
-            } else if (opcao.equals("6")) {
-                System.out.println("Volte sempre!");
-                break;
-            } else {
-                Medicamento.entradaInv();
             }
         }
     }
