@@ -1,0 +1,6 @@
+public static boolean isAdmin(String user){
+        if (user.equals("admin")){
+            return true;
+        }
+        return false;
+    }

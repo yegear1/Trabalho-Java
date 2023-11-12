@@ -11,6 +11,8 @@ public class Main {
     public static void main(String[] args) {
         Banco banco = new Banco();
         banco.criartabela();
+        banco.autenticar();
+        banco.tablecliete();
 
         Farmacia F1 = new Farmacia("Drogaria Gobila", 1);
 
@@ -48,8 +50,7 @@ public class Main {
         System.out.println("Senha: ");
         String pass = scanner.next();
 
-        if (SistemaLogin.login(user, pass)) {
-            if (SistemaLogin.isAdmin(user)) {
+            if (SistemaLogin.login(user, pass)) {
 
                 while (true) {
                     Farmacia.menuAdmin();
@@ -102,13 +103,19 @@ public class Main {
                         }
 
                     } else if (opcao.equals("4")) {
+                        System.out.println("Digite o nome do cliente a ser cadastrado");
+                        String nome = scanner.next();
+                        System.out.println("Digite a senha do cliente a ser cadastrado");
+                        String password = scanner.next();
+                        banco.inserircliente(nome, password);
+
+                    } else if (opcao.equals("5")) {
                         break;
                     } else {
                         Medicamento.entradaInv();
                     }
                 }
-
-            } else {
+            }else if(SistemaLogin.loginCli(user,pass)) {
 
                 System.out.printf("Bem vindos a %s !\n", F1.getNomeF());
                 System.out.println("Esse é o nosso sistema de atendimento online! ");
@@ -234,6 +241,5 @@ public class Main {
                     }
                 }
             }
-        }
     }
 }
