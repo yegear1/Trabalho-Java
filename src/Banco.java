@@ -53,6 +53,14 @@ public class Banco {
 
         preparedStatement.executeUpdate();
     }
+    public static void deletarcli(int num) throws SQLException{
+        Connection connection  = conexao();
+        String deletecli = ("DELETE FROM cliente WHERE id = ?");
+        PreparedStatement preparedStatement = connection.prepareStatement(deletecli);
+        preparedStatement.setInt(1, num);
+
+        preparedStatement.executeUpdate();
+    }
     private boolean tabelaExiste(String nomeTabela) throws SQLException {
         // Verificar se a tabela já existe no banco de dados
         try (Connection connection = conexao();

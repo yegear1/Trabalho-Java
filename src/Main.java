@@ -20,7 +20,7 @@ public class Main {
         Funcionario Fun2 = new Funcionario("Igor Batoré", 2, "Zelador", 1100);
         Funcionario Fun3 = new Funcionario("Wallas", 3, "Gerente", 3454);
 
-        Farmaceutico Fun4 = new Farmaceutico("Antonio", 4, "Farmaceutico manipulador", 3250);
+        Farmaceutico Fun4 = new Farmaceutico("Antonioabate", 4, "Farmaceutico manipulador", 3250);
         Farmaceutico Fun5 = new Farmaceutico("Adalberto", 5, "Farmaceutico", 3130);
 
         TarjaPreta M1 = new TarjaPreta("Venvanse", 10, 446.29F, "true", false);
@@ -109,7 +109,16 @@ public class Main {
                         String password = scanner.next();
                         banco.inserircliente(nome, password);
 
-                    } else if (opcao.equals("5")) {
+                    } else if(opcao.equals("5")){
+                        System.out.println("#-#-#-#-#- DELETAR Cliente -#-#-#-#-#");
+                        System.out.println("Digite o id do medicamento: ");
+                        int num = scanner.nextInt();
+                        try {
+                            Banco.deletarcli(num);
+                        } catch (SQLException e) {
+                            System.out.println(e);
+                        }
+                    }else if (opcao.equals("6")) {
                         break;
                     } else {
                         Medicamento.entradaInv();
