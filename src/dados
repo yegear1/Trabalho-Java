@@ -4,3 +4,39 @@ public static boolean isAdmin(String user){
         }
         return false;
     }
+
+
+    String updateQuery = "UPDATE medicamentos SET quantidade = ?, valor = ? WHERE id = ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+            preparedStatement.setInt(1, quantidade);
+            preparedStatement.setFloat(2,valor);
+            preparedStatement.setInt(3, num);
+
+
+          //gera medicamentos
+ for (Medicamento medicamento : estoqueUni) { // Gera os medicamentos no terminal
+                             if (medi.equalsIgnoreCase(medicamento.getNome())) {
+                                 medicamentoSelecionado = medicamento;
+                                 encontrado = true;
+                                 break;
+                             }
+                         }
+
+
+public void getmedicamentos(String medi1) throws SQLException {
+        String consultaMedi = "SELECT id, nome, quantidade, valor FROM medicamentos WHERE nome = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(consultaMedi)) {
+            preparedStatement.setString(1, medi1);
+
+            try (ResultSet resultado = preparedStatement.executeQuery()) {
+                if(resultado.next()) {
+                    // Itera sobre os resultados (pode haver mais de uma linha)
+                    int id = resultado.getInt("id");
+                    String nome = resultado.getString("nome");
+                    int quantidade = resultado.getInt("quantidade");
+                    float valor = resultado.getFloat("valor");
+                }
+            }
+        }
+    }

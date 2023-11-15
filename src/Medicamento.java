@@ -2,14 +2,14 @@ public class Medicamento{
     private String nome;
     private int qnt;
     private float preco;
-    private String desc;
+    private String tipo;
     private boolean gen;
 
     public Medicamento(String nome,int qnt,float preco,String desc,boolean gen){
         this.nome = nome;
         this.qnt = qnt;
         this.preco = preco;
-        this.desc = desc;
+        this.tipo = desc;
         this.gen = gen;
     }
 
@@ -74,10 +74,10 @@ public class Medicamento{
     }
 
     public  String getDesc(){
-        return desc;
+        return tipo;
     }
     void setDesc (String desc){
-        this.desc = desc;
+        this.tipo = desc;
     }
 
     boolean isGen(){
