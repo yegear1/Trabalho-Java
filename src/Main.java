@@ -1,3 +1,4 @@
+import javax.naming.AuthenticationNotSupportedException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -11,6 +12,11 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         Banco banco = new Banco();
         CompraBanco compra = new CompraBanco();
+        banco.autenticar();
+        banco.criartabela();
+        banco.tabelaagendamentos();
+        banco.tablecliete();
+        banco.tabelastatus();
         banco.tabelaagendamentos();
         //mostra o total de clientes
         banco.somarentidadeseliente();
@@ -97,11 +103,15 @@ public class Main {
                         }
 
                     } else if (opcao.equals("4")) {
-                        System.out.println("Digite o nome do cliente a ser cadastrado");
-                        String nome = scanner.next();
+                        System.out.println("Digite o nome do cliente: ");
+                        String nomecli = scanner.next();
+                        System.out.println("Digite o sobrenome do cliente");
+                        String sobrenome = scanner.next();
+                        System.out.println("Digite o usuario do cliente a ser cadastrado");
+                        String userario = scanner.next();
                         System.out.println("Digite a senha do cliente a ser cadastrado");
                         String password = scanner.next();
-                        banco.inserircliente(nome, password);
+                        banco.inserircliente(nomecli, sobrenome, userario, password);
 
                     } else if(opcao.equals("5")){
                         System.out.println("#-#-#-#-#- DELETAR Cliente -#-#-#-#-#");

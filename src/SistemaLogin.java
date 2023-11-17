@@ -52,7 +52,7 @@ public class SistemaLogin {
     }
     public static Boolean credenciaisclienete(String user, String pass){
         try{
-            String pesquisa ="SELECT COUNT(*) FROM cliente WHERE nome = ? AND password = ?";
+            String pesquisa ="SELECT COUNT(*) FROM cliente WHERE usuario = ? AND password = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(pesquisa);
             preparedStatement.setString(1, user);
             preparedStatement.setString(2, pass);

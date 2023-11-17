@@ -97,7 +97,7 @@ public class Banco {
     public void tablecliete(){
         try{
             if(!tabelaExiste("cliente")){
-                executar.execute("CREATE TABLE cliente(id INT NOT NULL AUTO_INCREMENT, nome VARCHAR(25), password VARCHAR(25), PRIMARY KEY(id))");
+                executar.execute("CREATE TABLE cliente(id INT NOT NULL AUTO_INCREMENT, nome VARCHAR(25), sobrenome VARCHAR(25), usuario VARCHAR(25), password VARCHAR(25), PRIMARY KEY(id))");
             }else{
                 System.out.println();
             }
@@ -105,14 +105,36 @@ public class Banco {
             System.out.println(e);
         }
     }
-    public void inserircliente(String user, String pass){
+    public static boolean verificarusuario(String user){
+        boolean existe = false;
+        Connection connection  = conexao();
         try{
-            String cliente = ("INSERT INTO cliente (nome, password) VALUES(?,?)");
-            PreparedStatement preparedStatement = connection.prepareStatement(cliente);
-            preparedStatement.setString(1, user);
-            preparedStatement.setString(2, pass);
+            String verificar = "SELECT * FROM cliente WHERE usuario = ?";
+            try(PreparedStatement verificarexis = connection.prepareStatement(verificar)){
+                verificarexis.setString(1, user);
+                try(ResultSet verificarresultado = verificarexis.executeQuery()){
+                    existe = verificarresultado.next();
+                }
+            }
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+        return existe;
+    }
+    public void inserircliente(String nomecli, String sobrenomecli, String user, String pass){
+        try{
+            if(verificarusuario(user)) {
+                System.out.println("O nome de usuario não pode ser utilizado, tente outro.");
+            }else{
+                String cliente = ("INSERT INTO cliente (nome, sobrenome, usuario, password) VALUES(?,?,?,?)");
+                PreparedStatement preparedStatement = connection.prepareStatement(cliente);
+                preparedStatement.setString(1, nomecli);
+                preparedStatement.setString(2, sobrenomecli);
+                preparedStatement.setString(3, user);
+                preparedStatement.setString(4, pass);
 
-            preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate();
+            }
 
         }catch(SQLException e){
             System.out.println(e);

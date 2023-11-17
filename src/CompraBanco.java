@@ -73,6 +73,7 @@ public class CompraBanco {
                                         System.out.println("Medicamento não pode ser comprado");
                                     }
                                 } else if (tipomedi.equalsIgnoreCase("TarjaVermelha") && quant > 0) {
+                                    System.out.println("Quantos dejesa comprar?");
                                     int Novacompra = scanner1.nextInt();
                                     int novaquant = quant - Novacompra;
                                     float Preco = valorf * Novacompra;
@@ -100,6 +101,7 @@ public class CompraBanco {
                                         System.out.println("Medicamento não pode ser comprado");
                                     }
                                 } else if (tipomedi.equalsIgnoreCase("SemTarja") && quant > 0) {
+                                    System.out.println("Quantos dejesa comprar?");
                                     int Novacompra = scanner1.nextInt();
                                     int novaquant = quant - Novacompra;
                                     float Preco = valorf * Novacompra;
