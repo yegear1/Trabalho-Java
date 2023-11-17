@@ -246,7 +246,92 @@ public class Banco {
             System.out.println(e);
         }
     }
-}
+    public void somarentidadeseliente() {
+        try {
+            String consultaSQLCliente = "SELECT COUNT(id) AS soma_total FROM cliente";
 
+            try (PreparedStatement statement = connection.prepareStatement(consultaSQLCliente);
+                 ResultSet consultaSoma = statement.executeQuery()) {
+
+                if (consultaSoma.next()) {
+                    int soma = consultaSoma.getInt("soma_total");
+                    System.out.println("Soma total de cliente: " + soma);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void somarentidadesefuncionarios() {
+        try {
+            String consultaSQLCliente = "SELECT COUNT(id) AS soma_total FROM autenticar";
+
+            try (PreparedStatement statement = connection.prepareStatement(consultaSQLCliente);
+                 ResultSet consultaSomafu = statement.executeQuery()) {
+
+                if (consultaSomafu.next()) {
+                    int somafu = consultaSomafu.getInt("soma_total");
+                    System.out.println("Soma total de Funcionarios: " + somafu);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void somarentidadesmedicamentos() {
+        try {
+            String consultaSQLCliente = "SELECT COUNT(id) AS soma_total FROM medicamentos";
+
+            try (PreparedStatement statement = connection.prepareStatement(consultaSQLCliente);
+                 ResultSet consultaSomamedi = statement.executeQuery()) {
+
+                if (consultaSomamedi.next()) {
+                    int somamedi = consultaSomamedi.getInt("soma_total");
+                    System.out.println("Soma total de Medicamentos registrados: " + somamedi);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void tabelaagendamentos(){
+        try {
+            if(!tabelaExiste("agendamentos")) {
+                executar.execute("CREATE TABLE agendamentos(id INT NOT NULL AUTO_INCREMENT ,nomecliente VARCHAR(25), nomemedicamento VARCHAR(25), quantidade INT,  PRIMARY KEY(id))");
+            }else{
+                System.out.println();
+            }
+        }catch (SQLException e){
+            System.out.println(e);
+        }
+    }
+    public void deletarpedido(String nomecli) throws SQLException {
+        CompraBanco compra1 = new CompraBanco();
+        compra1.status(nomecli);
+        System.out.println("Digite o id do Pedido a ser cancelado: ");
+        int idpedido = scanner1.nextInt();
+        String deletecli = ("DELETE FROM status WHERE id = ?");
+        PreparedStatement preparedStatement = connection.prepareStatement(deletecli);
+        preparedStatement.setInt(1, idpedido);
+
+        preparedStatement.executeUpdate();
+        System.out.println("Pedido cancelado com sucesso");
+
+    }
+    public void deletaragendamento(String nomeCliente1) throws SQLException {
+        CompraBanco compra1 = new CompraBanco();
+        compra1.statusagendamento(nomeCliente1);
+        System.out.println("Digite o id do agendamento a ser cancelado: ");
+        int idagendamento = scanner1.nextInt();
+        String deletecli = ("DELETE FROM agendamentos WHERE id = ?");
+        PreparedStatement preparedStatement = connection.prepareStatement(deletecli);
+        preparedStatement.setInt(1, idagendamento);
+
+        preparedStatement.executeUpdate();
+        System.out.println("Agendamento cancelado com sucesso");
+    }
+
+    //Adicionar metodo de deletar carrinho de cliente
+}
 
 

@@ -12,7 +12,11 @@ public class Farmacia {
         System.out.println("Oque o cliente deseja ");
         System.out.println("1. Fazer um pedido");
         System.out.println("2. Verificar seu carrinho de compras");
-        System.out.println("3. Sair");
+        System.out.println("3. Agendar pedido");
+        System.out.println("4. Verificar Agendamento");
+        System.out.println("5. Cancelar compra");
+        System.out.println("6. Cancelar agendamento");
+        System.out.println("7. Sair");
         System.out.print("Opção:  \n");
     }
     public static void menuAdmin() {

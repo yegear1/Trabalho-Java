@@ -11,10 +11,13 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         Banco banco = new Banco();
         CompraBanco compra = new CompraBanco();
-        banco.criartabela();
-        banco.autenticar();
-        banco.tablecliete();
-        banco.tabelastatus();
+        banco.tabelaagendamentos();
+        //mostra o total de clientes
+        banco.somarentidadeseliente();
+        //mostra o total de funcionarios
+        banco.somarentidadesefuncionarios();
+        //mostra o total de medicamentos
+        banco.somarentidadesmedicamentos();
 
         Farmacia F1 = new Farmacia("Drogaria Gobila", 1);
 
@@ -147,7 +150,48 @@ public class Main {
                             } else {
                                 Medicamento.entradaInv();
                             }
-                        }else if (opcao.equals("3")) {
+                        }else if(opcao.equals("3")){
+                        compra.agendarmedicamento(user);
+                    }else if(opcao.equals("4")){
+                        compra.statusagendamento(user);
+                        System.out.println("Deseja continuar ou finalizar a compra ?");
+                        System.out.println("1 - Continuar");
+                        System.out.println("2 - Finalizar");
+                        String Fin2 = scanner.nextLine();
+                        if (Fin2.equals("1")) {
+                        } else if (Fin2.equals("2")) {
+                            System.out.println("Volte sempre!");
+                            break;
+                        } else {
+                            Medicamento.entradaInv();
+                        }
+                    }else if(opcao.equals("5")){
+                        banco.deletarpedido(user);
+                        System.out.println("Deseja continuar ou finalizar a compra ?");
+                        System.out.println("1 - Continuar");
+                        System.out.println("2 - Finalizar");
+                        String Fin3 = scanner.nextLine();
+                        if (Fin3.equals("1")) {
+                        } else if (Fin3.equals("2")) {
+                            System.out.println("Volte sempre!");
+                            break;
+                        } else {
+                            Medicamento.entradaInv();
+                        }
+                    }else if(opcao.equals("6")){
+                        banco.deletaragendamento(user);
+                        System.out.println("Deseja continuar ou finalizar a compra ?");
+                        System.out.println("1 - Continuar");
+                        System.out.println("2 - Finalizar");
+                        String Fin3 = scanner.nextLine();
+                        if (Fin3.equals("1")) {
+                        } else if (Fin3.equals("2")) {
+                            System.out.println("Volte sempre!");
+                            break;
+                        } else {
+                            Medicamento.entradaInv();
+                        }
+                    }else if (opcao.equals("7")) {
                         break;
                     }
 
